@@ -1,0 +1,48 @@
+﻿@model learn_basic_csharp_web.Models.AuthVM.Register
+
+@{
+    ViewBag.Title = "Register Page";
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Register Form</h2>
+                    @using (Html.BeginForm("Register", "Auth", FormMethod.Post))
+                    {
+                        <div class="mb-3">
+                            <select asp-for="roleId"  class="form-select" required>
+                                <option value="" selected disabled>Select Role</option>
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <option value="@role.Id">@role.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @required = true, @placeholder = "Name" })
+                            @* <input type="text" class="form-control" placeholder="Fullname" required> *@
+                        </div>
+                        <div class="mb-3">
+                            @Html.TextBoxFor(x => x.Username, new { @class = "form-control", @required = true, @placeholder = "Username" })
+                            @* <input type="text" class="form-control" placeholder="Username" required> *@
+                        </div>
+                        <div class="mb-3">
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @required = true, @placeholder = "Email" })
+                            @* <input type="text" class="form-control" placeholder="Email" required> *@
+                        </div>
+                        <div class="mb-3">
+                            @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @required = true, @placeholder = "Password", @type = "password" })
+                            @* <input type="password" class="form-control" placeholder="Password" required> *@
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
