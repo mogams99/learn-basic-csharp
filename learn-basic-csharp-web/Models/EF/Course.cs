@@ -15,13 +15,13 @@ public partial class Course
 
     public string? Description { get; set; }
 
+    public bool? IsActive { get; set; }
+
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
     public DateTime? DeletedAt { get; set; }
-
-    public bool? IsActive { get; set; }
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 

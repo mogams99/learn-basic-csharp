@@ -11,12 +11,6 @@ public partial class Student
 
     public string Name { get; set; } = null!;
 
-    public string? Email { get; set; }
-
-    public string? Major { get; set; }
-
-    public int? EnrollmentYear { get; set; }
-
     public bool? IsActive { get; set; }
 
     public DateTime? CreatedAt { get; set; }

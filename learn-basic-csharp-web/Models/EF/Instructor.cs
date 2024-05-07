@@ -9,9 +9,7 @@ public partial class Instructor
 
     public int? UserId { get; set; }
 
-    public string? Department { get; set; }
-
-    public string? Specialization { get; set; }
+    public string Name { get; set; } = null!;
 
     public bool? IsActive { get; set; }
 

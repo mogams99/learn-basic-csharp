@@ -28,8 +28,7 @@ public partial class ModelContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // #warning To protect potentially sensitive information in your connection string, you should move it out of source code.
-    // You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=university;Username=postgres;Password=;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -127,15 +126,12 @@ public partial class ModelContext : DbContext
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("deleted_at");
-            entity.Property(e => e.Department)
-                .HasMaxLength(100)
-                .HasColumnName("department");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.Specialization)
-                .HasMaxLength(100)
-                .HasColumnName("specialization");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .HasColumnName("name");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
@@ -178,18 +174,11 @@ public partial class ModelContext : DbContext
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("deleted_at");
-            entity.Property(e => e.Email)
-                .HasMaxLength(100)
-                .HasColumnName("email");
-            entity.Property(e => e.EnrollmentYear).HasColumnName("enrollment_year");
             entity.Property(e => e.IsActive)
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
-            entity.Property(e => e.Major)
-                .HasMaxLength(100)
-                .HasColumnName("major");
             entity.Property(e => e.Name)
-                .HasMaxLength(100)
+                .HasMaxLength(255)
                 .HasColumnName("name");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -228,6 +217,7 @@ public partial class ModelContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(255)
                 .HasColumnName("password");
+            entity.Property(e => e.RoleId).HasColumnName("role_id");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
@@ -236,22 +226,10 @@ public partial class ModelContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("username");
 
-            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "UserRole",
-                    r => r.HasOne<Role>().WithMany()
-                        .HasForeignKey("RoleId")
-                        .HasConstraintName("user_role_role_id_fkey"),
-                    l => l.HasOne<User>().WithMany()
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("user_role_user_id_fkey"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "RoleId").HasName("user_role_pkey");
-                        j.ToTable("user_role");
-                        j.IndexerProperty<int>("UserId").HasColumnName("user_id");
-                        j.IndexerProperty<int>("RoleId").HasColumnName("role_id");
-                    });
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("users_role_id_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);
