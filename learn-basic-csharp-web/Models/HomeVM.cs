@@ -29,7 +29,7 @@
                     new TBUser(){ Id = 5, Name = "JOqweqwewKO", Description = "JOdasdasdKO ganteng", Title = "MANAGER"},
                 };
             }
-        }
+        }   
 
         public class Detail
         {
