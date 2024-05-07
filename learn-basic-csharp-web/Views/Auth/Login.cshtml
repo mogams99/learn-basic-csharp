@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Login Page";
+}
+
+<style>
+    .login-form {
+        width: 700px;
+        margin: 0 auto;
+        padding: 30px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 50px;
+    }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px 0;
+            border: none;
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        /* Style the login button */
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+</style>
+
+<div class="login-form">
+    <h2 class="text-center mb-5">Learn Basic C# Web MVC</h2>
+    <form action="#">
+        <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Password" required>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </div>
+    </form>
+</div>

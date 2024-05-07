@@ -1,0 +1,30 @@
+﻿@model learn_basic_csharp_web.Models.HomeVM.Index
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<table>
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>NAMA</td>
+            <td>DESKRIPSI</td>
+            <td>TITLE</td>
+            <td>#</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UserList)
+        {
+            <tr>
+                <td>@(item.Id)</td>
+                <td>@(item.Name)</td>
+                <td>@(item.Description)</td>
+                <td>@(item.Title)</td>
+                <td>
+                    <a href="@(Url.Action("Detail", "Home", new { id = item.Id }))">Detail</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
