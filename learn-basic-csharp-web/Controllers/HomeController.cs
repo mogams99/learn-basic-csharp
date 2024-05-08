@@ -17,6 +17,16 @@ namespace learn_basic_csharp_web.Controllers
         {
             try
             {
+                // get session .USERNAME and .ROLE
+                string? username = HttpContext.Session.GetString(".USERNAME");
+                string? role_name = HttpContext.Session.GetString(".ROLE_NAME");
+                // check existing username and role
+                if(username == null || role_name == null)
+                {
+                    TempData["error"] = "Your session was expired";
+                    return RedirectToAction("Login", "Auth");
+                }
+
                 var model = new Models.HomeVM.Index();
                 return View(model);
             }

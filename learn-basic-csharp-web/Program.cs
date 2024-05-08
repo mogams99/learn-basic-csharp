@@ -11,6 +11,14 @@ builder.Services.AddDbContext<ModelContext>(options =>
     options.UseNpgsql(connectionString);
 });
 
+
+//SIAPKAN TERLEBIH DAHULU KONTOLFIGURASI SESSIONNYA
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".USER_SESSION";
+    options.IdleTimeout = TimeSpan.FromMinutes(120); //JADI INI KALAU IDLE SELAMA 120 MENIT AUTO MATI SESSIONNYA
+}); //WES SENG BASIC KONTOLFIGURASINE BASIC IKI SEK
+
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
@@ -28,6 +36,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+//SETELAH MENYIAPKAN KONTOLFIGURASINYA LANGSUNG DI USE
+app.UseSession();
 
 app.UseAuthorization();
 
