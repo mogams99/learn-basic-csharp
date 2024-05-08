@@ -1,6 +1,5 @@
 ﻿using learn_basic_csharp_web.Models.EF;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Principal;
 using BC = BCrypt.Net.BCrypt;
 
 namespace learn_basic_csharp_web.Models
@@ -9,12 +8,31 @@ namespace learn_basic_csharp_web.Models
     {
         public class Login
         {
+            public string Username { get; set; } = string.Empty;
+            public string Password { get; set; } = string.Empty;
+
             public Login()
             {
-                // logic of authenticated and authorized user
 
             }
 
+            public string? authUserByRole()
+            {
+                using (var context = new ModelContext())
+                {
+                    // get data user from context User join Role
+                    var user = context.Users.Include(x => x.Role).FirstOrDefault(x => x.Username == Username);
+                    // check user not null and verify password
+                    if (user != null && BC.Verify(Password, user.Password)) 
+                    {
+                        // check role on user var, if null then throw exception
+                        if (user.Role == null) throw new Exception("Role has not found");
+                        // return role name
+                        return user.Role.Name.ToLower();
+                    } 
+                    return null;
+                }
+            }
         }
 
         public class Register
