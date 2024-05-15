@@ -1,0 +1,10 @@
+﻿@model learn_basic_csharp_web.Models.RoleVM.Edit
+@{
+}
+
+@using (Html.BeginForm("Update", "Role", FormMethod.Post, new { id = "edit-form" }))
+{
+    @Html.HiddenFor(x => x.Id)
+    @Html.TextBoxFor(x => x.Role.Name, new { @class = "form-control" })
+    <button type="button" class="btn btn-sm btn-primary" onclick="fnSave(`edit`)">Save changes</button>
+}

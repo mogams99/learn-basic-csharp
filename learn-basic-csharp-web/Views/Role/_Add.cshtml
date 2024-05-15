@@ -1,0 +1,10 @@
+﻿@model learn_basic_csharp_web.Models.RoleVM.Add
+@{
+}
+
+
+@using (Html.BeginForm("Save", "Role", FormMethod.Post, new { id = "add-form" }))
+{
+    @Html.TextBoxFor(x => x.Role.Name, new {@class="form-control"})
+    <button type="button" class="btn btn-primary" onclick="fnSave(`add`)">Save</button>
+}
