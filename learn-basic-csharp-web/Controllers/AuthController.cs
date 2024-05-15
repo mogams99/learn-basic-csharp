@@ -24,27 +24,40 @@ namespace learn_basic_csharp_web.Controllers
         [HttpPost]
         public IActionResult Login(AuthVM.Login model)
         {
-            var auth = new AuthVM.Login
+            try
             {
-                Username = model.Username,
-                Password = model.Password,
-            };
+                if (ModelState.IsValid)
+                {
+                    var auth = new AuthVM.Login
+                    {
+                        Username = model.Username,
+                        Password = model.Password,
+                    };
 
-            var role = auth.authUserByRole();
+                    var role = auth.authUserByRole();
 
-            if (role != null)
-            {
-                // set session
-                HttpContext.Session.SetString(".USERNAME", model.Username);
-                HttpContext.Session.SetString(".ROLE_NAME", role);
-                
-                return RedirectToAction("Index", "Home");
+                    // check username and role validasi on database
+                    TempData["Error"] = "Invalid username or password";
+                    if (role == null) return View();
+
+                    // setup session by username and role name
+                    HttpContext.Session.SetString(".USERNAME", model.Username);
+                    HttpContext.Session.SetString(".ROLE_NAME", role);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["Error"] = "Invalid input form.";
+                    return View();
+                }
             }
-            else
+            catch
             {
-                ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                return View(model);
+                TempData["Error"] = "An error occurred while processing your request.";
+                return View("Error");
             }
+
         }
 
         [HttpGet]
@@ -64,8 +77,11 @@ namespace learn_basic_csharp_web.Controllers
 
                 return RedirectToAction("Login");
             }
+            else
+            {
+                return RedirectToAction("Register");
+            }
 
-            return RedirectToAction("Register");
         }
     }
 }

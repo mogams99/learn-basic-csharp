@@ -26,10 +26,15 @@ namespace learn_basic_csharp_web.Models
                     if (user != null && BC.Verify(Password, user.Password)) 
                     {
                         // check role on user var, if null then throw exception
-                        if (user.Role == null) throw new Exception("Role has not found");
-                        // return role name
-                        return user.Role.Name.ToLower();
-                    } 
+                        if (user.Role == null) throw new Exception("Role has not found.");
+                        // get data role name
+                        var role_name = user.Role.Name.ToLower();
+                        // check role name
+                        if (role_name == null) throw new Exception("Role name has user not found.");
+                        // return role name to controller func
+                        return role_name;
+                    }
+                    // return null
                     return null;
                 }
             }

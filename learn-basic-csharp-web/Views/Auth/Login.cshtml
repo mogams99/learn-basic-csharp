@@ -7,6 +7,13 @@
 <div class="container">
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show fs-6" role="alert">
+                    <strong>Alert:</strong> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Login Form</h2>
@@ -18,7 +25,7 @@
                                 @* <input type="text" class="form-control" placeholder="Username" required> *@
                             </div>
                             <div class="mb-3">
-                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @required = true, @placeholder = "Password", @type = "password"})
+                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @required = true, @placeholder = "Password", @type = "password" })
                                 @* <input type="password" class="form-control" placeholder="Password" required> *@
                             </div>
                             <div class="d-grid mb-3">
@@ -28,7 +35,6 @@
                         <div class="text-center">
                             <a class="nav-link" href="@(Url.Action("Register"))">Register</a>
                         </div>
-                        
                     }
                 </div>
             </div>
