@@ -2,9 +2,14 @@
 @{
 }
 
-
 @using (Html.BeginForm("Save", "Role", FormMethod.Post, new { id = "add-form" }))
 {
-    @Html.TextBoxFor(x => x.Role.Name, new {@class="form-control"})
-    <button type="button" class="btn btn-primary" onclick="fnSave(`add`)">Save</button>
+    <div class="form-group">
+        @Html.TextBoxFor(x => x.Role.Name, new { @class = "form-control", placeholder = "Role Name" })
+    </div>
+    <div class="form-check form-switch my-3">
+        @Html.CheckBoxFor(x => x.Role.IsActive, new { @class = "form-check-input", @type = "checkbox", @checked = true })
+        <label class="form-check-label" for="flexSwitchCheckChecked">Is Active</label>
+    </div>
+    <button type="button" class="btn btn-sm btn-primary" onclick="fnSave(`add`)">Save</button>
 }

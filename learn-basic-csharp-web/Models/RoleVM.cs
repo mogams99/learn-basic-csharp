@@ -12,7 +12,7 @@ namespace learn_basic_csharp_web.Models
             public Index()
             {
                 var context = new ModelContext();
-                Roles = context.Roles.ToList();
+                Roles = context.Roles.Where(x => x.DeletedAt == null ).ToList();
             }
         }
 
@@ -50,6 +50,9 @@ namespace learn_basic_csharp_web.Models
             if (string.IsNullOrEmpty(input.Role.Name)) throw new Exception("Role name is required.");
 
             query.Name = input.Role.Name;
+            query.IsActive = input.Role.IsActive;
+            query.UpdatedAt = DateTime.Now;
+
             await context.SaveChangesAsync();
 
             return result;
@@ -64,6 +67,7 @@ namespace learn_basic_csharp_web.Models
 
             var _add = new EF.Role();
             _add.Name = input.Role.Name;
+            _add.IsActive = input.Role.IsActive;
 
             context.Roles.Add(_add);
             await context.SaveChangesAsync();
@@ -79,7 +83,8 @@ namespace learn_basic_csharp_web.Models
 
                 if (query == null) throw new Exception("Data not found.");
 
-                context.Roles.Remove(query);
+                query.DeletedAt = DateTime.Now;
+
                 await context.SaveChangesAsync();
 
                 return true;
