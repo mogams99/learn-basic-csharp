@@ -20,21 +20,14 @@ namespace learn_basic_csharp_web.Models
             {
                 using (var context = new ModelContext())
                 {
-                    // get data user from context User join Role
                     var user = context.Users.Include(x => x.Role).FirstOrDefault(x => x.Username == Username);
-                    // check user not null and verify password
-                    if (user != null && BC.Verify(Password, user.Password)) 
+                    if (user != null && BC.Verify(Password, user.Password))
                     {
-                        // check role on user var, if null then throw exception
                         if (user.Role == null) throw new Exception("Role has not found.");
-                        // get data role name
                         var role_name = user.Role.Name.ToLower();
-                        // check role name
                         if (role_name == null) throw new Exception("Role name has user not found.");
-                        // return role name to controller func
                         return role_name;
                     }
-                    // return null
                     return null;
                 }
             }
@@ -57,7 +50,6 @@ namespace learn_basic_csharp_web.Models
 
             public static void saveUserByRole(Register input)
             {
-                // logic of registered user
                 using (var context = new ModelContext())
                 {
                     var passwordHash = BC.HashPassword(input.Password);
