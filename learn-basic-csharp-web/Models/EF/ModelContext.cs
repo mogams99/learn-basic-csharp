@@ -28,7 +28,7 @@ public partial class ModelContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=university;Username=postgres;Password=;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -212,8 +212,6 @@ public partial class ModelContext : DbContext
 
             entity.ToTable("users");
 
-            entity.HasIndex(e => e.RoleId, "users_role_id_key").IsUnique();
-
             entity.HasIndex(e => e.Username, "users_username_key").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
@@ -242,8 +240,8 @@ public partial class ModelContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("username");
 
-            entity.HasOne(d => d.Role).WithOne(p => p.User)
-                .HasForeignKey<User>(d => d.RoleId)
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("users_role_id_fkey");
         });
